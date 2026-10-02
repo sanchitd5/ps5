@@ -12,4 +12,4 @@ export PAYLOAD_MANAGER_URL WEBKIT_AUTOLOADER_URL
 
 envsubst < plugins.json.tpl > plugins.json
 
-exec python3 -m http.server 8081
+exec python3 /app/server.py
