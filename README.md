@@ -7,6 +7,7 @@ Umbrella repo for Home Assistant PS5 add-ons.
 - `ps5-hub-addon` — plugin dashboard (cards linking out to other PS5 plugins), mirrors [sanchitd5/ps5-hub](https://github.com/sanchitd5/ps5-hub)
 - `ps5-webkit-server` — serves the PS5 WebKit Autoloader exploit files for `manuals.playstation.net` DNS-rewrite installs, mirrors [sanchitd5/ps5-webkit-autoloader](https://github.com/sanchitd5/ps5-webkit-autoloader)
 - `ps5-relapse` — serves the Relapse WebKit+kernel exploit chain (firmware 7.00-13.60) as a standalone dashboard plugin, mirrors [sanchitd5/Relapse-Exploit](https://github.com/sanchitd5/Relapse-Exploit)
+- `ps5-relapse-sonic` — alternate Relapse build (firmware 7.00-13.60) as a standalone dashboard plugin, mirrors [sanchitd5/relapse](https://github.com/sanchitd5/relapse)
 
 Add-on content here is vendored (plain copies), not git submodules — HA
 supervisor's repo clone doesn't reliably init submodules, so files are
