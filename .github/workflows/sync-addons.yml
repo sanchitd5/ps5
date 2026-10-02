@@ -1,0 +1,47 @@
+name: Sync add-ons from source repos
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout umbrella repo
+        uses: actions/checkout@v4
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Clone ps5-hub source
+        run: git clone --depth=1 https://github.com/sanchitd5/ps5-hub.git /tmp/src-ps5-hub
+
+      - name: Clone ps5-webkit-autoloader source
+        run: git clone --depth=1 https://github.com/sanchitd5/ps5-webkit-autoloader.git /tmp/src-webkit
+
+      - name: Sync ps5-hub-addon/
+        run: |
+          rm -rf ps5-hub-addon
+          cp -R /tmp/src-ps5-hub/addons/ps5-hub ps5-hub-addon
+
+      - name: Sync ps5-webkit-server/
+        run: |
+          rm -rf ps5-webkit-server
+          cp -R /tmp/src-webkit/addons/ps5-webkit-server ps5-webkit-server
+
+      - name: Commit if changed
+        run: |
+          git add ps5-hub-addon ps5-webkit-server
+          if git diff --cached --quiet; then
+            echo "No changes to sync."
+          else
+            git commit -m "chore: sync add-ons from source repos"
+            git push origin HEAD:main
+          fi
