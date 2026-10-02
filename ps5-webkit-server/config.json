@@ -15,7 +15,6 @@
   "arch": ["armhf", "armv7", "aarch64"],
   "startup": "application",
   "boot": "auto",
-  "privileged": false,
   "network": true,
   "init": false
 }
