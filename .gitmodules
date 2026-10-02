@@ -3,4 +3,4 @@
 	url = https://github.com/sanchitd5/ps5-hub.git
 [submodule "ps5-webkit-autoloader"]
 	path = ps5-webkit-autoloader
-	url = git@github.com:sanchitd5/ps5-webkit-autoloader.git
+	url = https://github.com/sanchitd5/ps5-webkit-autoloader.git
