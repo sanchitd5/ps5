@@ -2,19 +2,20 @@
 
 Umbrella repo for Home Assistant PS5 add-ons.
 
-## Submodules
+## Add-ons
 
-- [`ps5-hub`](https://github.com/sanchitd5/ps5-hub) — plugin dashboard HA add-on
-- [`ps5-webkit-autoloader`](https://github.com/sanchitd5/ps5-webkit-autoloader) — WebKit exploit autoloader + HA add-on
+- `ps5-hub-addon` — plugin dashboard (cards linking out to other PS5 plugins), mirrors [sanchitd5/ps5-hub](https://github.com/sanchitd5/ps5-hub)
+- `ps5-webkit-server` — serves the PS5 WebKit Autoloader exploit files for `manuals.playstation.net` DNS-rewrite installs, mirrors [sanchitd5/ps5-webkit-autoloader](https://github.com/sanchitd5/ps5-webkit-autoloader)
 
-## Clone
+Add-on content here is vendored (plain copies), not git submodules — HA
+supervisor's repo clone doesn't reliably init submodules, so files are
+synced in directly. Source of truth for each add-on's code is its own
+repo above; update there first, then re-sync into this repo.
 
-```sh
-git clone --recurse-submodules https://github.com/sanchitd5/ps5.git
+## Install in Home Assistant
+
+Settings → Add-ons → Add-on Store → ⋮ → Repositories → add:
+
 ```
-
-Already cloned without `--recurse-submodules`?
-
-```sh
-git submodule update --init --recursive
+https://github.com/sanchitd5/ps5
 ```

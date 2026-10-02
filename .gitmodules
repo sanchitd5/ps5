@@ -1,6 +1,0 @@
-[submodule "ps5-hub"]
-	path = ps5-hub
-	url = https://github.com/sanchitd5/ps5-hub.git
-[submodule "ps5-webkit-autoloader"]
-	path = ps5-webkit-autoloader
-	url = https://github.com/sanchitd5/ps5-webkit-autoloader.git
