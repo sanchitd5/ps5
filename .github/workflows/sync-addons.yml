@@ -30,11 +30,17 @@ jobs:
         run: |
           rm -rf ps5-hub-addon
           cp -R /tmp/src-ps5-hub/addons/ps5-hub ps5-hub-addon
+          SHA=$(git -C /tmp/src-ps5-hub rev-parse --short HEAD)
+          jq --arg v "$SHA" '.version = $v' ps5-hub-addon/config.json > /tmp/config.json.tmp
+          mv /tmp/config.json.tmp ps5-hub-addon/config.json
 
       - name: Sync ps5-webkit-server/
         run: |
           rm -rf ps5-webkit-server
           cp -R /tmp/src-webkit/addons/ps5-webkit-server ps5-webkit-server
+          SHA=$(git -C /tmp/src-webkit rev-parse --short HEAD)
+          jq --arg v "$SHA" '.version = $v' ps5-webkit-server/config.json > /tmp/config.json.tmp
+          mv /tmp/config.json.tmp ps5-webkit-server/config.json
 
       - name: Commit if changed
         run: |
