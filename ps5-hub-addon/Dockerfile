@@ -9,5 +9,6 @@ COPY run.sh server.py /app/
 RUN chmod +x /app/run.sh
 
 COPY www/ /app/www/
+COPY plugins/ /app/plugins/
 
 CMD ["/app/run.sh"]

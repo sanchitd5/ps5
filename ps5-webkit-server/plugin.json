@@ -1,8 +1,0 @@
-{
-  "id": "webkit-autoloader",
-  "name": "WebKit Autoloader",
-  "icon": "icon.png",
-  "description": "Load WebKit exploit and payloads automatically",
-  "target": "${HA_URL:-http://localhost}:8080/app/v0/",
-  "type": "link"
-}

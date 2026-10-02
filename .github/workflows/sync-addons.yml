@@ -20,34 +20,44 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Clone ps5-hub source
-        run: git clone --depth=1 https://github.com/sanchitd5/ps5-hub.git /tmp/src-ps5-hub
+      - name: Clone source repos
+        run: |
+          git clone --depth=1 https://github.com/sanchitd5/ps5-hub.git /tmp/src-ps5-hub
+          git clone --depth=1 https://github.com/sanchitd5/ps5-webkit-autoloader.git /tmp/src-webkit
+          git clone --depth=1 https://github.com/sanchitd5/Relapse-Exploit.git /tmp/src-relapse
+          git clone --depth=1 https://github.com/sanchitd5/relapse.git /tmp/src-relapse-sonic
 
-      - name: Clone ps5-webkit-autoloader source
-        run: git clone --depth=1 https://github.com/sanchitd5/ps5-webkit-autoloader.git /tmp/src-webkit
-
-      - name: Sync ps5-hub-addon/
+      - name: Sync ps5-hub-addon/ (base files)
         run: |
           rm -rf ps5-hub-addon
           cp -R /tmp/src-ps5-hub/addons/ps5-hub ps5-hub-addon
+
+      - name: Re-vendor plugin file-trees into ps5-hub-addon/plugins/
+        run: |
+          mkdir -p ps5-hub-addon/plugins
+          rm -rf ps5-hub-addon/plugins/webkit-autoloader
+          cp -R /tmp/src-webkit/addons/ps5-webkit-server/frontend/autoloader ps5-hub-addon/plugins/webkit-autoloader
+
+          rm -rf ps5-hub-addon/plugins/relapse
+          cp -R /tmp/src-relapse/addons/ps5-relapse ps5-hub-addon/plugins/relapse
+          rm -f ps5-hub-addon/plugins/relapse/Dockerfile ps5-hub-addon/plugins/relapse/config.json ps5-hub-addon/plugins/relapse/run.sh
+
+          rm -rf ps5-hub-addon/plugins/relapse-sonic
+          cp -R /tmp/src-relapse-sonic/addons/ps5-relapse-sonic ps5-hub-addon/plugins/relapse-sonic
+          rm -f ps5-hub-addon/plugins/relapse-sonic/Dockerfile ps5-hub-addon/plugins/relapse-sonic/config.json ps5-hub-addon/plugins/relapse-sonic/run.sh
+
+      - name: Stamp version with ps5-hub's git SHA
+        run: |
           SHA=$(git -C /tmp/src-ps5-hub rev-parse --short HEAD)
           jq --arg v "$SHA" '.version = $v' ps5-hub-addon/config.json > /tmp/config.json.tmp
           mv /tmp/config.json.tmp ps5-hub-addon/config.json
 
-      - name: Sync ps5-webkit-server/
-        run: |
-          rm -rf ps5-webkit-server
-          cp -R /tmp/src-webkit/addons/ps5-webkit-server ps5-webkit-server
-          SHA=$(git -C /tmp/src-webkit rev-parse --short HEAD)
-          jq --arg v "$SHA" '.version = $v' ps5-webkit-server/config.json > /tmp/config.json.tmp
-          mv /tmp/config.json.tmp ps5-webkit-server/config.json
-
       - name: Commit if changed
         run: |
-          git add ps5-hub-addon ps5-webkit-server
+          git add ps5-hub-addon
           if git diff --cached --quiet; then
             echo "No changes to sync."
           else
-            git commit -m "chore: sync add-ons from source repos"
+            git commit -m "chore: sync ps5-hub and vendored plugins from source repos"
             git push origin HEAD:main
           fi
